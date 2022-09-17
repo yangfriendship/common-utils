@@ -4,10 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -124,6 +121,42 @@ public class TypeConvertUtilTest {
             assertNotNull(result);
             assertEquals(this.maps.size(), result.size());
         }, "DefaultMapList 의 타입은 List<Map<String,Object>>, 형변환에 예외가 발생하면 안된다.");
+    }
+
+    @Test
+    public void isNullOrEmptyTest_map() {
+        Map<String, Object> map = null;
+        assertTrue(TypeConvertUtil.isNullOrEmpty(map), "null 인 맵은 false 를 반환");
+        map = new HashMap<>();
+        assertTrue(TypeConvertUtil.isNullOrEmpty(map), "비어있는 맵은 false 를 반환");
+        map.put("key", "value");
+        assertFalse(TypeConvertUtil.isNullOrEmpty(map), "null/empty 가 아닌 맵은 true 를 반환");
+    }
+
+    @Test
+    public void isNullOrEmptyTest_collection() {
+        List<Object> objects = null;
+        assertTrue(TypeConvertUtil.isNullOrEmpty(objects), "null 인 컬렉션은 false 를 반환");
+        objects = new ArrayList<>();
+        assertTrue(TypeConvertUtil.isNullOrEmpty(objects), "비어있는 컬렉션은 false 를 반환");
+        objects.add("item");
+        assertFalse(TypeConvertUtil.isNullOrEmpty(objects), "null/empty 가 아닌 컬렉션은 true 를 반환");
+    }
+
+    @Test
+    public void getOrThrowTest() {
+        Class<RuntimeException> expectedException = RuntimeException.class;
+
+        assertThrows(expectedException, () -> {
+            TypeConvertUtil.getOrThrow(this.testMap, "undefineKey", RuntimeException::new);
+        }, "key 에 해당하는 value 가 존재하지 않는다면 지정된 exception 을 발생시킨다.");
+
+        assertDoesNotThrow(() -> {
+            for (Map.Entry<String, Object> entry : this.testMap.entrySet()) {
+                assertNotNull(TypeConvertUtil.getOrThrow(this.testMap, entry.getKey(), RuntimeException::new));
+            }
+        }, "key 에 해당하는 value 가 존재한다면 반환, 예외가 발생할 수 없다.");
+
     }
 
 }
