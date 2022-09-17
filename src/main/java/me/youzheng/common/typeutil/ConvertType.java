@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface ConvertType<T> {
 
-    ConvertType<Map<String, Object>> DEFAULT_MAP_TYPE = new ConvertType<>() {};
-    ConvertType<List<Map<String, Object>>> DEFAULT_MAP_LIST_TYPE = new ConvertType<>() {};
+    ConvertType<Map<String, Object>> DEFAULT_MAP_TYPE = new ConvertType<Map<String, Object>>() {};
+    ConvertType<List<Map<String, Object>>> DEFAULT_MAP_LIST_TYPE = new ConvertType<List<Map<String, Object>>>() {};
 
 }

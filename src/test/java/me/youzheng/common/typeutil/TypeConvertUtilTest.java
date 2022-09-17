@@ -23,7 +23,7 @@ public class TypeConvertUtilTest {
         this.testMap.put("integerKey", 1);
         this.testMap.put("longKey", 2L);
         this.testMap.put("localDateTimeKey", LocalDateTime.of(2022, 9, 13, 17, 23));
-        this.maps = List.of(this.testMap, this.testMap, this.testMap);
+        this.maps = Arrays.asList(this.testMap, this.testMap, this.testMap);
     }
 
     @Test
