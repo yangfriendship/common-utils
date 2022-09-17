@@ -22,6 +22,10 @@ public class TimeUtil {
         WEEK_FIELDS= WeekFields.of(locale);
     }
 
+    /**
+     * source 와 timePredicate 조건을 확인
+     * @return
+     */
     public static boolean match(LocalDateTime source, TimePredicate timePredicate) {
         return timePredicate.getPredicate().test(source, timePredicate.getTarget());
     }
@@ -39,30 +43,56 @@ public class TimeUtil {
         return !match(source, timePredicates);
     }
 
+    /**
+     * 년-월-일이 동일한지 확인
+     * @param target
+     * @return
+     */
+
     public static TimePredicate isSameDays(LocalDateTime target) {
         return IsSameDay.create(target);
     }
 
+    /**
+     * 년이 동일한지 확인
+     * @param target
+     * @return
+     */
     public static TimePredicate isSameYear(LocalDateTime target) {
         return IsSameYear.create(target);
     }
 
+    /**
+     * 년-월이 동일한지 확인
+     */
     public static TimePredicate isSameMonth(LocalDateTime target) {
         return IsSameMonth.create(target);
     }
 
+    /**
+     * 년-주가 동일한지 확인
+     */
     public static TimePredicate isSameWeek(LocalDateTime target) {
         return IsSameWeek.create(target);
     }
 
+    /**
+     * 년-월-일-시가 동일한지 확인
+     */
     public static TimePredicate isSameHour(LocalDateTime target) {
         return IsSameHour.create(target);
     }
 
+    /**
+     * 년-월-일-시-분가 동일한지 확인
+     */
     public static TimePredicate isSameMin(LocalDateTime target) {
         return IsSameMin.create(target);
     }
 
+    /**
+     * match 의 소스가 start, end 범위에 있는지 확인
+     */
     public static TimePredicate[] isBetween(LocalDateTime start, LocalDateTime end) {
         LocalDateTime from;
         LocalDateTime to;
@@ -76,10 +106,19 @@ public class TimeUtil {
         return new TimePredicate[]{IsAfter.create(from), IsBefore.create(to)};
     }
 
+    /**
+     * LocalDatetime -> String 변환
+     */
     public static String parseTo(LocalDateTime target, String pattern) {
         return target.format(getDateTimeFormatter(pattern));
     }
 
+    /**
+     * dateTimeFormatterCache 에 저장되어 있는 DateTimeFormatter 를 가져옴
+     * 존재하지 않는다면 새로운 DateTimeFormatter 를 생성하여 저장 후 반환
+     * @param pattern
+     * @return
+     */
     public static DateTimeFormatter getDateTimeFormatter(String pattern) {
         DateTimeFormatter formatter = dateTimeFormatterCache.get(pattern);
         if (formatter == null) {
