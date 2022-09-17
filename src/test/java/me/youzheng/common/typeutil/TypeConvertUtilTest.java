@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +31,9 @@ public class TypeConvertUtilTest {
         // given
 
         // when
-        String value1 = TypeConvertUtil.convertTo(() -> this.testMap.get("stringKey"), new ConvertType<>() {
+        String value1 = TypeConvertUtil.convertTo(() -> this.testMap.get("stringKey"), new ConvertType<String>() {
         });
-        Integer value2 = TypeConvertUtil.convertTo(() -> this.testMap.get("integerKey"), new ConvertType<>() {
+        Integer value2 = TypeConvertUtil.convertTo(() -> this.testMap.get("integerKey"), new ConvertType<Integer>() {
         });
 
         // then
@@ -99,8 +100,7 @@ public class TypeConvertUtilTest {
         // given
 
         // when
-        List<Map<String, Object>> result = TypeConvertUtil.convertTo(() -> this.maps, new ConvertType<>() {
-        });
+        List<Map<String, Object>> result = TypeConvertUtil.convertTo(() -> this.maps, new ConvertType<List<Map<String,Object>>>() {});
 
         // then
         assertEquals(this.maps.size(), result.size());
